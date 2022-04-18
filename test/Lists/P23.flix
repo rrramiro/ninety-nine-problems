@@ -1,14 +1,14 @@
 namespace Lists/P23 {
     use Lists.removeAt;
 
-    def randomSelectR(gen: Int32 ~> Int32, i: Int, xs: List[a]): List[a] & Impure =
+    def randomSelectR(gen: Int32 -> Int32 & Impure, i: Int32, xs: List[a]): List[a] & Impure =
         if (i <= 0) Nil
         else {
             let (rest, x) = removeAt(xs |> List.length |> gen, xs);
             (x |> Option.toList) ::: randomSelectR(gen, i - 1, rest)
         }
 
-    pub def randomSelect(gen: Int32 ~> Int32, i: Int32, xs: List[a]): List[a] & Impure =
+    pub def randomSelect(gen: Int32 -> Int32 & Impure, i: Int32, xs: List[a]): List[a] & Impure =
         randomSelectR(gen, i, xs)
 
     @test

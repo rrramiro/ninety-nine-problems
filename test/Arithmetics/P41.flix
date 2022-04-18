@@ -3,7 +3,7 @@ namespace Arithmetics/P41 {
 
     def printGoldbachListLimited(b: Int32, e: Int32, limit: Int32): Unit & Impure = {
         List.range(b, e) |>
-        List.filter(n -> n > 2 and n % 2 == 0) |>
+        List.filter(n -> n > 2 and n mod 2 == 0) |>
         List.foreach(n -> {
             match goldbach(n) {
                 case Some((p1, p2)) if (p1 >= limit) =>

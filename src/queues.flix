@@ -9,11 +9,11 @@ namespace Queues {
 
     def toStringHelper(xs: Queue[a]): String & Impure with ToString[a] =
         let sb = StringBuilder.new();
-        Queues.foreach(x -> StringBuilder.appendString!(sb, "${x}, "), xs);
+        Queues.foreach(x -> StringBuilder.appendString!("${x}, ", sb), xs);
         let s = StringBuilder.toString(sb);
         "Queue#{${String.dropRight(2, s)}}"
 
-    pub def foreach(f: a ~> Unit, q: Queue[a]): Unit & Impure =
+    pub def foreach(f: a -> Unit & Impure, q: Queue[a]): Unit & Impure =
         let Queue(inb, outb) = q;
         (outb ::: List.reverse(inb)) |> List.foreach(f)
 

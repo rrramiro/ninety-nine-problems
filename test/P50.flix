@@ -16,11 +16,15 @@ namespace P50 {
         case TNil                       => 0
     }
 
+
     def dequeueSmallest(q1: Queue[Tree[Component[a]]], q2: Queue[Tree[Component[a]]]): (Option[Tree[Component[a]]], Queue[Tree[Component[a]]], Queue[Tree[Component[a]]]) =
         if (Queues.isEmpty(q2))
             let (x, xs) = Queues.dequeue(q1);
             (x, xs, q2)
-        else if (Queues.isEmpty(q1) or (Option.map2((f2, f1) -> freq(f2) < freq(f1), Queues.front(q2), Queues.front(q1)) |> Option.forall(x -> x)))
+        else if (Queues.isEmpty(q1) or (Option.zip(Queues.front(q2), Queues.front(q1)) |> Option.map(y ->
+            let (f2, f1) = y;
+            freq(f2) < freq(f1)
+        ) |> Option.forall(x -> x)))
             let (x, xs) = Queues.dequeue(q2);
             (x, q1, xs)
         else
@@ -43,7 +47,7 @@ namespace P50 {
         let init = ls |> List.sortWith((a, b) ->
                 let (_, freqA) = a;
                 let (_, freqB) = b;
-                Comparison.fromInt(freqA - freqB)
+                Comparison.fromInt32(freqA - freqB)
             ) |> List.map(x ->
                 let (e, f) = x;
                 TNode(Leaf(e, f), TNil, TNil)

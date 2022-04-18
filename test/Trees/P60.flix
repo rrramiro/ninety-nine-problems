@@ -11,9 +11,9 @@ namespace Trees/P60 {
         if (nodes == 0) 0 else minHbalHeight(nodes / 2) + 1
 
     def maxHbalHeight(nodes: Int32): Option[Int32] =
-        LazyLists.from(1) |>
-        LazyLists.takeWhile(x -> minHbalNodes(x) <= nodes) |>
-        LazyLists.last
+        DelayLists.from(1) |>
+        DelayLists.takeWhile(x -> minHbalNodes(x) <= nodes) |>
+        DelayLists.last
 
     pub def heightBalancedWithNodes(nodes: Int32, value: a): List[Tree[a]] =
         use List.flatMap;

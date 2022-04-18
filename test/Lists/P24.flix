@@ -1,6 +1,6 @@
 namespace Lists/P24 {
     use Lists/P23.randomSelect;
-    def lotto(gen: Int32 ~> Int32, count: Int, max: Int): List[Int] & Impure=
+    def lotto(gen: Int32 -> Int32 & Impure, count: Int32, max: Int32): List[Int32] & Impure=
         randomSelect(gen, count, List.range(1, max + 1))
 
     @test

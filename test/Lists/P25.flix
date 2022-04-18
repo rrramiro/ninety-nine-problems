@@ -1,6 +1,6 @@
 namespace Lists/P25 {
     use Lists/P23.randomSelect;
-    def randomPermute(gen: Int32 ~> Int32, l: List[a]): List[a] & Impure =
+    def randomPermute(gen: Int32 -> Int32 & Impure, l: List[a]): List[a] & Impure =
         randomSelect(gen, List.length(l), l)
 
     @test

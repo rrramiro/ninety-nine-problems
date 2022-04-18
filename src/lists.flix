@@ -25,7 +25,7 @@ namespace Lists {
         case _ :: rs        => nextToLast(rs)
     }
 
-    pub def kth(l: List[a], k: Int): Option[a] = match l {
+    pub def kth(l: List[a], k: Int32): Option[a] = match l {
         case Nil                => None
         case x :: _ if (k == 0) => Some(x)
         case _ :: rs            => if (k < 0) None else kth(rs, k - 1)
@@ -97,7 +97,7 @@ namespace Lists {
     pub def decode(l: List[(Int32, a)]): List[a] =
         use List.flatMap;
         let* (len, e) = l;
-        List.repeat(e, len)
+        List.repeat(len, e)
 
     pub def encodeDirect(l: List[a]): List[(Int32, a)] with Eq[a] = match l {
         case Nil => Nil
@@ -115,7 +115,7 @@ namespace Lists {
     pub def duplicateN(n: Int32, l: List[a]): List[a] =
         use List.flatMap;
         let* v = l;
-        List.repeat(v, n)
+        List.repeat(n, v)
 
     def dropR(i: Int32, n: Int32, l: List[a], b: List[a]): List[a] = match l {
         case Nil       => reverseTailRecursive(b)
@@ -131,7 +131,7 @@ namespace Lists {
     pub def drop(n: Int32, l: List[a]): List[a] =
         dropR(n, n, l, Nil)
 
-    def splitR(curN: Int, curL: List[a], pre: List[a]): (List[a], List[a]) =
+    def splitR(curN: Int32, curL: List[a], pre: List[a]): (List[a], List[a]) =
         match (curN, curL) {
             case (_, Nil)       => (reverseTailRecursive(pre), Nil)
             case (0, list)      => (reverseTailRecursive(pre), list)

@@ -105,19 +105,19 @@ namespace Trees {
     pub def cBalanced(n: Int32, value: a): List[Tree[a]] =
         use List.flatMap;
         if(n < 1) TNil :: Nil
-        else if(n % 2 == 1) {
+        else if(n mod 2 == 1) {
             let t = cBalanced(n / 2, value);
             let* l = t;
             let* r = t;
             TNode(value, l, r) :: Nil
-        } else if(n % 2 == 0)
+        } else if(n mod 2 == 0)
             let* l = cBalanced((n - 1) / 2, value);
             let* g = cBalanced((n - 1) / 2 + 1, value);
             TNode(value, l, g) :: TNode(value, g, l) :: Nil
         else Nil
 
 
-    pub def heightBalanced(i: Int, x: a): List[Tree[a]] =
+    pub def heightBalanced(i: Int32, x: a): List[Tree[a]] =
         use List.flatMap;
         if(i <= 0) TNil :: Nil
         else if(i == 1) TNode(x, TNil, TNil) :: Nil
@@ -142,7 +142,7 @@ namespace Trees {
     pub def completeBinaryTree(nodes: Int32, value: a): Tree[a] =
         generateTree(nodes, value, 1)
 
-    def layoutBinaryTreeInternal(x: Int, depth: Int, t: Tree[a]): (Tree[Positioned[a]], Int32) = match t {
+    def layoutBinaryTreeInternal(x: Int32, depth: Int32, t: Tree[a]): (Tree[Positioned[a]], Int32) = match t {
         case TNil                      => (TNil, x)
         case TNode(value, left, right) =>
             let (leftTree, myX)    = layoutBinaryTreeInternal(x, depth + 1, left);
@@ -160,7 +160,7 @@ namespace Trees {
     }
 
     def layoutBinaryTree2Internal(x: Int32, depth: Int32, exp: Int32, t: Tree[a]) : Tree[Positioned[a]] =
-        let towExp = Option.getWithDefault(Arithmetics.powInt(2, exp), 0);
+        let towExp = Arithmetics.powInt(2, exp) |> Option.getWithDefault(0);
         match t {
             case TNil                      => TNil
             case TNode(value, left, right) =>
@@ -173,7 +173,7 @@ namespace Trees {
 
     pub def layoutBinaryTree2(t: Tree[a]): Tree[Positioned[a]] =
         let d      = Trees.height(t);
-        let towExp = ((n: Int32) -> Option.getWithDefault(Arithmetics.powInt(2, d - n), 0));
+        let towExp = ((n: Int32) -> Arithmetics.powInt(2, d - n) |> Option.getWithDefault(0));
         let x0 = List.range(2, leftmostNodeDepth(t) + 1) |> List.map(towExp)  |> List.foldLeft((x, y) -> x + y, 1);
         layoutBinaryTree2Internal(x0, 1, d - 2, t)
 
@@ -191,10 +191,10 @@ namespace Trees {
                     (l + 1, r + 1)
                 )
                 case (lb, rb) => {
-                let shift: Int32 = Option.getWithDefault(List.zip(rb, lb) |> List.map(e ->
+                let shift: Int32 = List.zip(rb, lb) |> List.map(e ->
                     let ((_,ly), (rx, _)) = e;
                     (ly - rx) / 2 + 1
-                ) |> List.maximum, 0) ;
+                ) |> List.maximum |> Option.getWithDefault(0) ;
                 Lists.zipAll(None, None, lb |> List.map(e -> Some(e)), rb |> List.map(e -> Some(e))) |>
                     List.map(e -> match e {
                     case (Some((a, _)), Some((_, d))) => (a - shift, d + shift)
@@ -228,11 +228,10 @@ namespace Trees {
 
 
     pub def layoutBinaryTree3(t: Tree[a]): Tree[Positioned[a]] =
-        let x = Option.getWithDefault(bounds(t) |> List.map(e ->
+        let x = bounds(t) |> List.map(e ->
             let (l, _) = e;
             l
-        ) |> List.minimum, 0) * -1 + 1;
+        ) |> List.minimum |> Option.getWithDefault(0) * -1 + 1;
         layoutBinaryTree3Internal(x, 1, t)
-
 
 }
