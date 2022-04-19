@@ -234,4 +234,41 @@ namespace Trees {
         ) |> List.minimum |> Option.getWithDefault(0) * -1 + 1;
         layoutBinaryTree3Internal(x, 1, t)
 
+
+    pub def display(t: Tree[a]): String with ToString[a] = match t {
+        case TNil                      => ""
+        case TNode(value, TNil, TNil)  => "${value}"
+        case TNode(value, left, right) =>
+            let dl = display(left);
+            let dr = display(right);
+            "${value}(${dl},${dr})"
+    }
+
+    def parseHelper(str: List[Char]): Option[(List[Char], Tree[Char])] =
+        match str {
+            case ',' :: _ => Some((str,  TNil))
+            case ')' :: _ => Some((str,  TNil))
+            case x :: y :: xs if y == ',' or y == ')' => Some((y :: xs,  TNode(x, TNil, TNil)))
+            case x :: '(' :: xs =>
+                match parseHelper(xs) {
+                    case Some((',' :: xss, l)) =>
+                        match parseHelper(xss) {
+                            case Some((')' :: xsss, r)) => Some((xsss, TNode(x, l, r)))
+                            case _  => None
+                        }
+                    case _ => None
+                }
+            case _ => None
+        }
+
+    pub def parse(s: String): Option[Tree[Char]] =
+        match (s |> String.toList) {
+            case Nil      => Some(TNil)
+            case x :: Nil => Some(TNode(x, TNil, TNil))
+            case str      =>
+                parseHelper(str) |> Option.map(r ->
+                    let (_, t) = r;
+                    t
+                )
+        }
 }
