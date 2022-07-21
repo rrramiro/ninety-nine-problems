@@ -19,7 +19,7 @@ instance Eq[Tree[a]] with Eq[a] {
     }
 }
 
-opaque type Positioned[a] = (a, Int32, Int32)
+pub enum Positioned[a](a, Int32, Int32)
 
 instance Eq[Positioned[a]] with Eq[a] {
     pub def eq(left: Positioned[a], right: Positioned[a]): Bool =

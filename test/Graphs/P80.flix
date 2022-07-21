@@ -19,5 +19,30 @@ namespace Graphs/P80 {
         ) == Graph(
             'b' :: 'c' :: 'd' :: 'f' :: 'g' :: 'h' :: 'k' :: Nil,
             GEdge('b','c') :: GEdge('b','f'):: GEdge('c','f'):: GEdge('f','k'):: GEdge('g','h') :: Nil
-        ) 
+        )
+
+    @test
+    def testDigraphToAdj01(): Bool =
+        Graphs.digraphToAdj(
+            DiGraph('r' :: 's' :: 't' :: 'u' :: 'v' :: Nil, GArc('s', 'r') :: GArc('s', 'u') :: GArc('u', 'r') :: GArc('u', 's') :: GArc('v', 'u') :: Nil)
+        ) == Adjacency(
+            GNode('r', Nil) :: GNode('s', 'r' :: 'u' :: Nil) :: GNode('t', Nil) :: GNode('u', 'r' :: 's' :: Nil) :: GNode('v',  'u' :: Nil) :: Nil
+        )
+
+    @test
+    def testAdjToDigraph01(): Bool =
+        Graphs.adjToDigraph(
+            Adjacency(
+            GNode('r', Nil) :: GNode('s', 'r' :: 'u' :: Nil) :: GNode('t', Nil) :: GNode('u', 'r' :: 's' :: Nil) :: GNode('v',  'u' :: Nil) :: Nil
+            )
+        ) == DiGraph('r' :: 's' :: 't' :: 'u' :: 'v' :: Nil, GArc('s', 'r') :: GArc('s', 'u') :: GArc('u', 'r') :: GArc('u', 's') :: GArc('v', 'u') :: Nil)
+
+    @test
+    def testDigraphToFri01(): Bool =
+        Graphs.digraphToFri(
+            DiGraph('r' :: 's' :: 't' :: 'u' :: 'v' :: Nil, GArc('s', 'r') :: GArc('s', 'u') :: GArc('u', 'r') :: GArc('u', 's') :: GArc('v', 'u') :: Nil)
+        ) == Friendly(
+           GLine('s', 'r') :: GLine('s', 'u') :: GLine('u', 'r') :: GLine('u', 's') :: GLine('v', 'u') :: GVert('t') :: Nil
+        )
+
 }

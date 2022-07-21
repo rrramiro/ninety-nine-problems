@@ -1,19 +1,22 @@
-opaque type Queue[a] = (List[a], List[a])
+pub enum Queue[a](List[a], List[a])
 
 instance ToString[Queue[a]] with ToString[a] {
     pub def toString(xs: Queue[a]): String = Queues.toString(xs)
 }
 
 namespace Queues {
-    pub def toString(xs: Queue[a]): String with ToString[a] = toStringHelper(xs) as & Pure
-
-    def toStringHelper(xs: Queue[a]): String & Impure with ToString[a] =
-        let sb = StringBuilder.new();
-        Queues.foreach(x -> StringBuilder.appendString!("${x}, ", sb), xs);
+    pub def toString(l: Queue[a]): String with ToString[a] = region r {
+        let sb = new StringBuilder(r);
+        Queues.foreach(x -> StringBuilder.appendString!("${x}, ", sb), l);
         let s = StringBuilder.toString(sb);
         "Queue#{${String.dropRight(2, s)}}"
-
-    pub def foreach(f: a -> Unit & Impure, q: Queue[a]): Unit & Impure =
+    }
+/*
+    pub def zipWithIndex(q: Queue[a]): Queue[(a, Int32)] =
+        let Queue(inb, outb) = q;
+        Queue(inb |> List.reverse |> List.zipWithIndex |> List.reverse, outb |> List.zipWithIndex)
+*/
+    pub def foreach(f: a -> Unit & ef, q: Queue[a]): Unit & ef =
         let Queue(inb, outb) = q;
         (outb ::: List.reverse(inb)) |> List.foreach(f)
 
