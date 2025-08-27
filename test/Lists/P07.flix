@@ -1,5 +1,5 @@
 // Flatten a nested list structure.
-namespace Lists/P07 {
+mod Lists.P07 {
 
     def flatten(l: List[List[a]]): List[a] = List.flatten(l)
 

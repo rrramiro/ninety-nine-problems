@@ -1,4 +1,4 @@
-namespace Arithmetics/P39 {
+mod Arithmetics.P39 {
     use Arithmetics.primesInRange;
 
     @test

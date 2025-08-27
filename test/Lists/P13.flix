@@ -1,4 +1,4 @@
-namespace Lists/P13 {
+mod Lists.P13 {
     use Lists.encodeDirect;
     @test
     def testEncode01(): Bool =

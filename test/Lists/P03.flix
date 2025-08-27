@@ -1,10 +1,10 @@
 // Find the K'th element of a list.
 // The first element in the list is number 0.
-namespace Lists/P03 {
+mod Lists.P03 {
     use Lists.kth;
     @test
     def testKth01(): Bool =
-        kth(Nil: List[Int32], 0) == None
+        kth((Nil: List[Int32]), 0) == None
 
     @test
     def testKth02(): Bool =

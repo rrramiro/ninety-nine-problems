@@ -1,5 +1,5 @@
 // Find out whether a list is a palindrome.
-namespace Lists/P06 {
+mod Lists.P06 {
 
     def isPalindrome(l: List[a]): Bool with Eq[a] =
         l == List.reverse(l)

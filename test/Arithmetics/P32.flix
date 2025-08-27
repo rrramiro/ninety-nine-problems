@@ -1,4 +1,4 @@
-namespace Arithmetics/P32 {
+mod Arithmetics.P32 {
     use Arithmetics.gcd;
 
     @test

@@ -1,16 +1,16 @@
-namespace Trees/P57 {
+mod Trees.P57 {
 
     @test
     def testInsert01(): Bool =
-        Trees.insert("a", TNil) == TNode("a", TNil, TNil)
+        Trees.insert("a", Tree.TNil) == Tree.TNode("a", Tree.TNil, Tree.TNil)
 
     @test
     def testInsert02(): Bool =
-        (TNil |> Trees.insert(2) |> Trees.insert(3) |> Trees.insert(0)) == TNode(2, TNode(0, TNil, TNil), TNode(3, TNil, TNil))
+        (Tree.TNil |> Trees.insert(2) |> Trees.insert(3) |> Trees.insert(0)) == Tree.TNode(2, Tree.TNode(0, Tree.TNil, Tree.TNil), Tree.TNode(3, Tree.TNil, Tree.TNil))
 
     @test
     def testFromList01(): Bool =
-        Trees.fromList(3 :: 2 :: 5 :: 7 :: 1 :: Nil) == TNode(3, TNode(2, TNode(1, TNil, TNil), TNil), TNode(5, TNil, TNode(7, TNil, TNil)))
+        Trees.fromList(3 :: 2 :: 5 :: 7 :: 1 :: Nil) == Tree.TNode(3, Tree.TNode(2, Tree.TNode(1, Tree.TNil, Tree.TNil), Tree.TNil), Tree.TNode(5, Tree.TNil, Tree.TNode(7, Tree.TNil, Tree.TNil)))
 
     @test
     def testFromList02(): Bool =

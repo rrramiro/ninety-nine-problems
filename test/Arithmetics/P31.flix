@@ -1,4 +1,4 @@
-namespace Arithmetics/P31 {
+mod Arithmetics.P31 {
     use Arithmetics.isPrime;
 
     @test

@@ -1,4 +1,4 @@
-namespace Arithmetics/P35 {
+mod Arithmetics.P35 {
     use Arithmetics.primeFactors;
 
     @test

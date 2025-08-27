@@ -1,4 +1,4 @@
-namespace Lists/P26 {
+mod Lists.P26 {
     use Lists.combinations;
 
     @test

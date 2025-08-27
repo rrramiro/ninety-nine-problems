@@ -1,11 +1,15 @@
-namespace Lists/P24 {
-    use Lists/P23.randomSelect;
-    def lotto(gen: Int32 -> Int32 & Impure, count: Int32, max: Int32): List[Int32] & Impure=
+mod Lists.P24 {
+    use Lists.P23.randomSelect;
+    def lotto(gen: Int32 -> Int32 \ Random, count: Int32, max: Int32): List[Int32] \ Random=
         randomSelect(gen, count, List.range(1, max + 1))
 
     @test
-    def testLotto01(): Bool & Impure =
-        let r = Random.newWithSeed(123456i64);
-        let gen = Random.nextNatWithMax(r);
-        lotto(gen, 6, 49) == 1 :: 25 :: 8 :: 49 :: 32 :: 5 :: Nil
+    def testLotto01(): Bool = 
+        let result = Random.runWithSeed(123456i64, 
+            () -> {
+                let gen = Randoms.nextInt;
+                lotto(gen, 6, 49) 
+            }
+        );
+        result == 2 :: 16 :: 41 :: 48 :: 14 :: 9 :: Nil
 }

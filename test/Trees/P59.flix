@@ -1,11 +1,11 @@
 // Construct height-balanced binary trees
-namespace Trees/P59 {
+mod Trees.P59 {
     @test
     def testhBalanced01(): Bool =
         Trees.heightBalanced(2, "c") == (
-            TNode("c", TNode("c", TNil, TNil), TNode("c", TNil, TNil)) ::
-            TNode("c", TNode("c", TNil, TNil), TNil) ::
-            TNode("c", TNil, TNode("c", TNil, TNil)) :: Nil
+            Tree.TNode("c", Tree.TNode("c", Tree.TNil, Tree.TNil), Tree.TNode("c", Tree.TNil, Tree.TNil)) ::
+            Tree.TNode("c", Tree.TNode("c", Tree.TNil, Tree.TNil), Tree.TNil) ::
+            Tree.TNode("c", Tree.TNil, Tree.TNode("c", Tree.TNil, Tree.TNil)) :: Nil
         )
 
     @test
@@ -14,6 +14,6 @@ namespace Trees/P59 {
 
     @test
     def testhBalanced03(): Bool =
-        Trees.heightBalanced(3, "c") |> List.forall(Trees.isHeightBalanced)
+        Trees.heightBalanced(3, "c") |> List.forAll(Trees.isHeightBalanced)
 
 }

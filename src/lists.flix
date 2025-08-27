@@ -1,4 +1,4 @@
-namespace Lists {
+mod Lists {
     enum EncodeResult[a]{
         case Single(a),
         case Multiple(Int32, a)
@@ -6,8 +6,8 @@ namespace Lists {
 
     instance Eq[EncodeResult[a]]  with Eq[a] {
             pub def eq(x: EncodeResult[a], y: EncodeResult[a]): Bool = match (x, y) {
-                    case (Single(a), Single(b)) => a == b
-                    case (Multiple(la, a), Multiple(lb, b)) => la == lb and a == b
+                    case (EncodeResult.Single(a), EncodeResult.Single(b)) => a == b
+                    case (EncodeResult.Multiple(la, a), EncodeResult.Multiple(lb, b)) => la == lb and a == b
                     case _ => false
             }
     }
@@ -57,7 +57,7 @@ namespace Lists {
     }
 
     pub def reverseTailRecursive(l: List[a]): List[a] =
-        reverseR(Nil: List[a], l)
+        reverseR(Nil, l)
 
     def spanR(l: List[a], p: a -> Bool, b: List[a]): (List[a], List[a]) = match l {
         case Nil       => (b, Nil)
@@ -82,22 +82,19 @@ namespace Lists {
     }
 */
     pub def encode(l: List[a]): List[(Int32, a)] with Eq[a] =
-        use List.flatMap;
-        let* sub = pack(l);
-        let len = List.length(sub);
-        List.head(sub) |> Option.map(v -> (len, v)) |> Option.toList
+        forM(sub <- pack(l); len = List.length(sub); r <- (List.head(sub) |> Option.map(v -> (len, v)) |> Option.toList))
+            yield r
 
     pub def encodeModified(l: List[a]): List[EncodeResult[a]] with Eq[a] =
         encode(l) |> List.map(t -> match t {
-                case (1, e)   => Single(e)
-                case (len, e) => Multiple(len, e)
+                case (1, e)   => EncodeResult.Single(e)
+                case (len, e) => EncodeResult.Multiple(len, e)
             }
         )
 
     pub def decode(l: List[(Int32, a)]): List[a] =
-        use List.flatMap;
-        let* (len, e) = l;
-        List.repeat(len, e)
+        forM((len, e) <- l; r <- List.repeat(len, e))
+            yield r
 
     pub def encodeDirect(l: List[a]): List[(Int32, a)] with Eq[a] = match l {
         case Nil => Nil
@@ -108,14 +105,12 @@ namespace Lists {
     }
 
     pub def duplicate(l: List[a]): List[a] =
-        use List.flatMap;
-        let* v = l;
-        v :: v :: Nil
+        forM(v <- l; r <- v :: v :: Nil)
+            yield r
 
     pub def duplicateN(n: Int32, l: List[a]): List[a] =
-        use List.flatMap;
-        let* v = l;
-        List.repeat(n, v)
+        forM(v <- l; r <- List.repeat(n, v))
+            yield r
 
     def dropR(i: Int32, n: Int32, l: List[a], b: List[a]): List[a] = match l {
         case Nil       => reverseTailRecursive(b)

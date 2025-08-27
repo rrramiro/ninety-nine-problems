@@ -1,4 +1,4 @@
-namespace Lists/P15 {
+mod Lists.P15 {
     use Lists.duplicateN;
     @test
     def testDuplicateN01(): Bool =

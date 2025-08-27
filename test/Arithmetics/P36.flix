@@ -1,4 +1,4 @@
-namespace Arithmetics/P36 {
+mod Arithmetics.P36 {
     use Arithmetics.primeFactorMultiplicity;
 
     @test

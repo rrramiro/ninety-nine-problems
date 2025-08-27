@@ -1,10 +1,10 @@
 // Find the last element of a list.
 
-namespace Lists/P01 {
+mod Lists.P01 {
     use Lists.last;
     @test
     def testLast01(): Bool =
-        last(Nil: List[Int32]) == None
+        last((Nil: List[Int32])) == None
 
     @test
     def testLast02(): Bool =

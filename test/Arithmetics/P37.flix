@@ -1,4 +1,4 @@
-namespace Arithmetics/P37 {
+mod Arithmetics.P37 {
     use Arithmetics.phi;
 
     @test

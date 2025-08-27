@@ -1,4 +1,4 @@
-namespace Lists/P11 {
+mod Lists.P11 {
     use Lists.encodeModified;
     use Lists.EncodeResult.{Single, Multiple};
     @test

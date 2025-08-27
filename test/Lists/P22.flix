@@ -1,4 +1,4 @@
-namespace Lists/P22 {
+mod Lists.P22 {
     use Lists.range;
 
     @test

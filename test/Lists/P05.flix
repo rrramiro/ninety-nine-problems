@@ -1,10 +1,11 @@
 //Reverse a list.
-namespace Lists/P05 {
+mod Lists.P05 {
     use Lists.reverseRecursive;
     use Lists.reverseTailRecursive;
+    
     @test
     def testReverseRecursive01(): Bool =
-        reverseRecursive(Nil: List[Int32]) == Nil
+        reverseRecursive((Nil: List[Int32])) == Nil
 
     @test
     def testReverseRecursive02(): Bool =
@@ -13,7 +14,7 @@ namespace Lists/P05 {
 
     @test
     def testReverseTailRecursive01(): Bool =
-        reverseTailRecursive(Nil: List[Int32]) == Nil
+        reverseTailRecursive((Nil: List[Int32])) == Nil
 
     @test
     def testReverseTailRecursive02(): Bool =

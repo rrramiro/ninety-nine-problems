@@ -1,5 +1,5 @@
 // Run-length encoding of a list.
-namespace Lists/P10 {
+mod Lists.P10 {
     use Lists.encode;
     @test
     def testEncode01(): Bool =

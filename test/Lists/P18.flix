@@ -1,4 +1,4 @@
-namespace Lists/P18 {
+mod Lists.P18 {
     use Lists.slice;
 
     @test

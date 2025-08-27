@@ -1,4 +1,4 @@
-namespace Lists/P27 {
+mod Lists.P27 {
     use Lists.combinations;
 
     pub def difference(xs: List[a], ys: List[a]): List[a] with Eq[a] =
@@ -8,8 +8,8 @@ namespace Lists/P27 {
         case Nil => Nil :: Nil
         case n :: ns =>
             use List.flatMap;
-            let* c = combinations(n, ls);
-            group(ns, difference(ls, c)) |> List.map(x -> c :: x)
+            forM(c <- combinations(n, ls); r <- group(ns, difference(ls, c)) |> List.map(x -> c :: x))
+                yield r
     }
 
     @test

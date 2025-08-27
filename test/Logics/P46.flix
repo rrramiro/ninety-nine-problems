@@ -1,14 +1,14 @@
-namespace Logics/P46 {
-    use Logics.{nand, not, and, or, nor, xor, equ, impl};
+mod Logics.P46 {
+    use Logics.{nand, _not, _and, _or, nor, _xor, equ, impl};
 
-    def _bToS(a: Boolean): String = if(a == True) "True " else "False"
+    def _bToS(a: Boolean): String = if(a == Boolean.True) "True " else "False"
 
-    def table2(f: (Boolean, Boolean) -> Boolean): Unit & Impure =
-        ((False, False) ::
-        (False, True) ::
-        (True, False) ::
-        (True, True) :: Nil) |>
-        List.foreach( x ->
+    def table2(f: (Boolean, Boolean) -> Boolean): Unit \ IO =
+        ((Boolean.False, Boolean.False) ::
+        (Boolean.False, Boolean.True) ::
+        (Boolean.True, Boolean.False) ::
+        (Boolean.True, Boolean.True) :: Nil) |>
+        List.forEach( x ->
             let (a,b) = x;
             let c = f(a, b);
             println("| " + _bToS(a) + " | " + _bToS(b) + " || " + _bToS(c) + " |")
@@ -16,127 +16,127 @@ namespace Logics/P46 {
 
     @test
     def testnot01(): Bool =
-        not(True) == False
+        _not(Boolean.True) == Boolean.False
 
     @test
     def testnot02(): Bool =
-        not(False) == True
+        _not(Boolean.False) == Boolean.True
 
     @test
     def testnand01(): Bool =
-        (((False, False), True) ::
-        ((False, True), True) ::
-        ((True, False), True) ::
-        ((True, True), False) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.True) ::
+        ((Boolean.False, Boolean.True), Boolean.True) ::
+        ((Boolean.True, Boolean.False), Boolean.True) ::
+        ((Boolean.True, Boolean.True), Boolean.False) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
             nand(a, b) == c
         )
 
     @test
-    def testnand02(): Unit & Impure =
+    def testnand02(): Unit \ IO =
         println("NAND");
         println("--------------------------");
         table2(nand)
 
     @test
     def testand01(): Bool =
-        (((False, False), False) ::
-        ((False, True), False) ::
-        ((True, False), False) ::
-        ((True, True), True) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.False) ::
+        ((Boolean.False, Boolean.True), Boolean.False) ::
+        ((Boolean.True, Boolean.False), Boolean.False) ::
+        ((Boolean.True, Boolean.True), Boolean.True) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
-            and(a, b) == c
+            _and(a, b) == c
         )
 
     @test
-    def testand02(): Unit & Impure =
+    def testand02(): Unit \ IO =
         println("AND");
         println("--------------------------");
-        table2(and)
+        table2(_and)
 
     @test
     def testor01(): Bool =
-        (((False, False), False) ::
-        ((False, True), True) ::
-        ((True, False), True) ::
-        ((True, True), True) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.False) ::
+        ((Boolean.False, Boolean.True), Boolean.True) ::
+        ((Boolean.True, Boolean.False), Boolean.True) ::
+        ((Boolean.True, Boolean.True), Boolean.True) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
-            or(a, b) == c
+            _or(a, b) == c
         )
 
     @test
-    def testor02(): Unit & Impure =
+    def testor02(): Unit \ IO =
         println("OR");
         println("--------------------------");
-        table2(or)
+        table2(_or)
 
     @test
     def testnor01(): Bool =
-        (((False, False), True) ::
-        ((False, True), False) ::
-        ((True, False), False) ::
-        ((True, True), False) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.True) ::
+        ((Boolean.False, Boolean.True), Boolean.False) ::
+        ((Boolean.True, Boolean.False), Boolean.False) ::
+        ((Boolean.True, Boolean.True), Boolean.False) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
             nor(a, b) == c
         )
 
     @test
-    def testnor02(): Unit & Impure =
+    def testnor02(): Unit \ IO =
         println("NOR");
         println("--------------------------");
         table2(nor)
 
     @test
     def testxor01(): Bool =
-        (((False, False), False) ::
-        ((False, True), True) ::
-        ((True, False), True) ::
-        ((True, True), False) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.False) ::
+        ((Boolean.False, Boolean.True), Boolean.True) ::
+        ((Boolean.True, Boolean.False), Boolean.True) ::
+        ((Boolean.True, Boolean.True), Boolean.False) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
-            xor(a,b) == c
+            _xor(a,b) == c
         )
 
     @test
-    def testxor02(): Unit & Impure =
+    def testxor02(): Unit \ IO =
         println("XOR");
         println("--------------------------");
-        table2(xor)
+        table2(_xor)
 
     @test
     def testequ01(): Bool =
-        (((False, False), True) ::
-        ((False, True), False) ::
-        ((True, False), False) ::
-        ((True, True), True) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.True) ::
+        ((Boolean.False, Boolean.True), Boolean.False) ::
+        ((Boolean.True, Boolean.False), Boolean.False) ::
+        ((Boolean.True, Boolean.True), Boolean.True) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
             equ(a, b) == c
         )
 
     @test
-    def testequ02(): Unit & Impure =
+    def testequ02(): Unit \ IO =
         println("EQU");
         println("--------------------------");
         table2(equ)
 
     @test
     def testimpl01(): Bool =
-        (((False, False), True) ::
-        ((False, True), True) ::
-        ((True, False), False) ::
-        ((True, True), True) :: Nil) |>
-        List.forall( x ->
+        (((Boolean.False, Boolean.False), Boolean.True) ::
+        ((Boolean.False, Boolean.True), Boolean.True) ::
+        ((Boolean.True, Boolean.False), Boolean.False) ::
+        ((Boolean.True, Boolean.True), Boolean.True) :: Nil) |>
+        List.forAll( x ->
             let ((a,b), c) = x;
             impl(a, b) == c
         )
 
     @test
-    def testimpl02(): Unit & Impure =
+    def testimpl02(): Unit \ IO =
         println("IMPL");
         println("--------------------------");
         table2(impl)

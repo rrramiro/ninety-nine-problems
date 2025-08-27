@@ -1,8 +1,8 @@
 
-namespace Arithmetics {
+mod Arithmetics {
 
     pub def gcd(i: Int32, j: Int32): Int32 =
-        if (j == 0) i else gcd(j, i mod j)
+        if (j == 0) i else gcd(j, Int32.modulo(i, j))
 
     pub def isCoprimeTo(x: Int32, y: Int32): Bool = gcd(y, x) == 1
 
@@ -22,24 +22,24 @@ namespace Arithmetics {
         ), Some(1))
 
     pub def isPrime(p: Int32): Bool =
-        DelayLists.from(2) |>
-        DelayList.take(p - 2) |>
-        DelayLists.forall(x -> p mod x != 0)
+        DelayLists.startFrom(2) |>
+        DelayLists.take(p - 2) |>
+        DelayLists.forAll(x -> Int32.modulo(p, x) != 0)
 
     def primes(): DelayList[Int32] =
-        DelayLists.from(2) |>
+        DelayLists.startFrom(2) |>
         DelayLists.filter(isPrime)
 
     pub def primeFactorsRec(i: Int32, j: DelayList[Int32], js: List[Int32]): List[Int32] = match j {
-        case ENil                    => Nil
-        case LList(ys)               => primeFactorsRec(i, force ys, js)
-        case ECons(h, tail)          =>
-            if (i mod h == 0) primeFactorsRec(i / h, j, h :: js)
+        case DelayList.ENil                    => Nil
+        case DelayList.LList(ys)               => primeFactorsRec(i, force ys, js)
+        case DelayList.ECons(h, tail)          =>
+            if (Int32.modulo(i, h) == 0) primeFactorsRec(i / h, j, h :: js)
             else if (i > h) primeFactorsRec(i, tail, js)
             else List.reverse(js)
-        case LCons(h, t)             =>
+        case DelayList.LCons(h, t)             =>
             let tail = force t;
-            if (i mod h == 0) primeFactorsRec(i / h, j, h :: js)
+            if (Int32.modulo(i, h) == 0) primeFactorsRec(i / h, j, h :: js)
             else if (i > h) primeFactorsRec(i, tail, js)
             else List.reverse(js)
     }
@@ -55,7 +55,7 @@ namespace Arithmetics {
         })
 
     pub def powInt(l: Int32, r: Int32): Option[Int32] =
-        let p = Int32.toFloat64(l) ** Int32.toFloat64(r);
+        let p = Float64.pow(base = Int32.toFloat64(l), Int32.toFloat64(r));
         Float64.tryToInt32(p)
 
     pub def phi(i: Int32): Option[Int32] =

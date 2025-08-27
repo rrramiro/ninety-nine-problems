@@ -6,15 +6,15 @@ enum Tree[a] {
 
 instance ToString[Tree[a]] with ToString[a] {
     pub def toString(t: Tree[a]): String = match t {
-        case TNode(value, left, right) => "TNode(${value}, ${left}, ${right})"
-        case TNil                      => "TNil"
+        case Tree.TNode(value, left, right) => "TNode(${value}, ${left}, ${right})"
+        case Tree.TNil                      => "TNil"
     }
 }
 
 instance Eq[Tree[a]] with Eq[a] {
     pub def eq(left: Tree[a], right: Tree[a]): Bool = match (left, right) {
-        case (TNode(v1, l1, r1), TNode(v2, l2, r2)) => (v1 == v2) and (l1 == l2) and (r1 == r2)
-        case (TNil, TNil)                           => true
+        case (Tree.TNode(v1, l1, r1), Tree.TNode(v2, l2, r2)) => (v1 == v2) and (l1 == l2) and (r1 == r2)
+        case (Tree.TNil, Tree.TNil)                           => true
         case _                                      => false
     }
 }
@@ -23,131 +23,129 @@ pub enum Positioned[a](a, Int32, Int32)
 
 instance Eq[Positioned[a]] with Eq[a] {
     pub def eq(left: Positioned[a], right: Positioned[a]): Bool =
-        let Positioned(v1, x1, y1) = left;
-        let Positioned(v2, x2, y2) = right;
+        let Positioned.Positioned(v1, x1, y1) = left;
+        let Positioned.Positioned(v2, x2, y2) = right;
         (v1 == v2) and (x1 == x2) and (y1 == y2)
 }
 
 instance ToString[Positioned[a]] with ToString[a] {
     pub def toString(p: Positioned[a]): String =
-        let Positioned(value, x, y) = p;
+        let Positioned.Positioned(value, x, y) = p;
         "Positioned(${value}, ${x}, ${y})"
 }
 
-namespace Trees {
+mod Trees {
 
     pub def leafs(t: Tree[a]): Int32 = match t {
-        case TNil                 => 0
-        case TNode(_, TNil, TNil) => 1
-        case TNode(_, l, r)       => leafs(l) + leafs(r)
+        case Tree.TNil                 => 0
+        case Tree.TNode(_, Tree.TNil, Tree.TNil) => 1
+        case Tree.TNode(_, l, r)       => leafs(l) + leafs(r)
     }
 
     pub def leaves(t: Tree[a]): List[a] = match t {
-        case TNil                 => Nil
-        case TNode(v, TNil, TNil) => v :: Nil
-        case TNode(_, l, r)       => leaves(l) ::: leaves(r)
+        case Tree.TNil                 => Nil
+        case Tree.TNode(v, Tree.TNil, Tree.TNil) => v :: Nil
+        case Tree.TNode(_, l, r)       => leaves(l) ::: leaves(r)
     }
 
     pub def internals(t: Tree[a]): List[a] = match t {
-        case TNil                 => Nil
-        case TNode(_, TNil, TNil) => Nil
-        case TNode(v, l, r)       => v :: (internals(l) ::: internals(r))
+        case Tree.TNil                 => Nil
+        case Tree.TNode(_, Tree.TNil, Tree.TNil) => Nil
+        case Tree.TNode(v, l, r)       => v :: (internals(l) ::: internals(r))
     }
 
     pub def atlevel(level: Int32, t: Tree[a]): List[a] = match t {
-        case TNil                 => Nil
-        case TNode(v, l, r)       => if(level <= 0) v :: Nil else atlevel(level - 1, l) ::: atlevel(level - 1, r)
+        case Tree.TNil                 => Nil
+        case Tree.TNode(v, l, r)       => if(level <= 0) v :: Nil else atlevel(level - 1, l) ::: atlevel(level - 1, r)
     }
 
     pub def isLeaf(t: Tree[a]): Bool = match t {
-        case TNode(_, TNil, TNil) => true
+        case Tree.TNode(_, Tree.TNil, Tree.TNil) => true
         case _                    => false
     }
 
     pub def nodeCount(t: Tree[a]): Int32 = match t {
-        case TNil           => 0
-        case TNode(_, l, r) => nodeCount(l) + nodeCount(r) + 1
+        case Tree.TNil           => 0
+        case Tree.TNode(_, l, r) => nodeCount(l) + nodeCount(r) + 1
     }
 
     pub def height(t: Tree[a]): Int32 = match t {
-        case TNil                 => 0
-        case TNode(_, TNil, TNil) => 1
-        case TNode(_, l, r)       => Int32.max(height(l), height(r)) + 1
+        case Tree.TNil                 => 0
+        case Tree.TNode(_, Tree.TNil, Tree.TNil) => 1
+        case Tree.TNode(_, l, r)       => Int32.max(height(l), height(r)) + 1
     }
 
     pub def isHeightBalanced(t: Tree[a]): Bool = match t {
-        case TNode(_, l, r) => 1 >= Int32.abs((height(l) - height(r)))
-        case TNil           => false
+        case Tree.TNode(_, l, r) => 1 >= Int32.abs((height(l) - height(r)))
+        case Tree.TNil           => false
     }
 
     pub def isMirrorOf(l: Tree[a], r: Tree[a]): Bool = match (l, r) {
-        case (TNil, TNil)                         => true
-        case (TNode(_, l1, r1), TNode(_, l2, r2)) => isMirrorOf(l1, r2) and isMirrorOf(l2, r1)
+        case (Tree.TNil, Tree.TNil)                         => true
+        case (Tree.TNode(_, l1, r1), Tree.TNode(_, l2, r2)) => isMirrorOf(l1, r2) and isMirrorOf(l2, r1)
         case _                                    => false
     }
 
     pub def isSymmetric(t: Tree[a]): Bool = match t {
-        case TNil           => true
-        case TNode(_, l, r) => isMirrorOf(l, r)
+        case Tree.TNil           => true
+        case Tree.TNode(_, l, r) => isMirrorOf(l, r)
     }
 
     pub def insert(x: a, t: Tree[a]): Tree[a] with Order[a] = match t {
-        case TNil           => TNode(x, TNil, TNil)
-        case TNode(y, l, r) =>
+        case Tree.TNil           => Tree.TNode(x, Tree.TNil, Tree.TNil)
+        case Tree.TNode(y, l, r) =>
             if (x == y) t
-            else if(x < y) TNode(y, insert(x, l), r)
-            else TNode(y, l, insert(x, r))
+            else if(x < y) Tree.TNode(y, insert(x, l), r)
+            else Tree.TNode(y, l, insert(x, r))
     }
 
     pub def fromList(l: List[a]): Tree[a] with Order[a] =
-        List.foldLeft((acc, x) -> insert(x, acc), TNil, l)
+        List.foldLeft((acc, x) -> insert(x, acc), Tree.TNil, l)
 
-    pub def cBalanced(n: Int32, value: a): List[Tree[a]] =
-        use List.flatMap;
-        if(n < 1) TNil :: Nil
-        else if(n mod 2 == 1) {
+    pub def cBalanced(n: Int32, value: a): List[Tree[a]] \ {} =
+        if(n < 1) Tree.TNil :: List.Nil
+        else if(Int32.modulo(n, 2) == 1) {
             let t = cBalanced(n / 2, value);
-            let* l = t;
-            let* r = t;
-            TNode(value, l, r) :: Nil
-        } else if(n mod 2 == 0)
-            let* l = cBalanced((n - 1) / 2, value);
-            let* g = cBalanced((n - 1) / 2 + 1, value);
-            TNode(value, l, g) :: TNode(value, g, l) :: Nil
-        else Nil
+            forM(l <- t; r <- t; res <- Tree.TNode(value, l, r) :: List.Nil)
+                yield res
+        } else if(Int32.modulo(n, 2) == 0)
+            forM(
+                l <- cBalanced((n - 1) / 2, value); 
+                g <- cBalanced((n - 1) / 2 + 1, value); 
+                r <- Tree.TNode(value, l, g) :: Tree.TNode(value, g, l) :: List.Nil
+            ) yield r
+        else List.Nil
 
 
     pub def heightBalanced(i: Int32, x: a): List[Tree[a]] =
         use List.flatMap;
-        if(i <= 0) TNil :: Nil
-        else if(i == 1) TNode(x, TNil, TNil) :: Nil
+        if(i <= 0) Tree.TNil :: Nil
+        else if(i == 1) Tree.TNode(x, Tree.TNil, Tree.TNil) :: Nil
         else {
             let t1 = heightBalanced(i - 1, x);
             let t2 = heightBalanced(i - 2, x);
             {
-                let* tall = t1;
-                let* tall2 = t1;
-                TNode(x, tall, tall2) :: Nil
+                forM(tall <- t1; tall2 <- t1; r <- Tree.TNode(x, tall, tall2) :: Nil)
+                    yield r
             } ::: {
-                let* short = t2;
-                let* tall = t1;
-                TNode(x, tall, short) :: TNode(x, short, tall) :: Nil
+                forM(short <- t2; tall <- t1; r <- Tree.TNode(x, tall, short) :: Tree.TNode(x, short, tall) :: Nil)
+                    yield r
             }
         }
 
     def generateTree(nodes: Int32, value: a, addr: Int32): Tree[a] =
-        if (addr > nodes) TNil
-        else TNode(value, generateTree(nodes, value, 2 * addr), generateTree(nodes, value,2 * addr + 1))
+        if (addr > nodes) Tree.TNil
+        else Tree.TNode(value, generateTree(nodes, value, 2 * addr), generateTree(nodes, value,2 * addr + 1))
 
     pub def completeBinaryTree(nodes: Int32, value: a): Tree[a] =
         generateTree(nodes, value, 1)
 
     def layoutBinaryTreeInternal(x: Int32, depth: Int32, t: Tree[a]): (Tree[Positioned[a]], Int32) = match t {
-        case TNil                      => (TNil, x)
-        case TNode(value, left, right) =>
+        case Tree.TNil                      => (Tree.TNil, x)
+        case Tree.TNode(value, left, right) =>
             let (leftTree, myX)    = layoutBinaryTreeInternal(x, depth + 1, left);
             let (rightTree, nextX) = layoutBinaryTreeInternal(myX + 1, depth + 1, right);
-            (TNode(Positioned(value, myX, depth), leftTree, rightTree), nextX)
+            (Tree.TNode(Positioned.Positioned(value, myX, depth), leftTree, rightTree), nextX)
     }
 
     pub def layoutBinaryTree(t: Tree[a]): Tree[Positioned[a]] =
@@ -155,17 +153,17 @@ namespace Trees {
         result
 
     def leftmostNodeDepth(t: Tree[a]): Int32 = match t {
-        case TNil           => 0
-        case TNode(_, l, _) => leftmostNodeDepth(l) + 1
+        case Tree.TNil           => 0
+        case Tree.TNode(_, l, _) => leftmostNodeDepth(l) + 1
     }
 
     def layoutBinaryTree2Internal(x: Int32, depth: Int32, exp: Int32, t: Tree[a]) : Tree[Positioned[a]] =
         let towExp = Arithmetics.powInt(2, exp) |> Option.getWithDefault(0);
         match t {
-            case TNil                      => TNil
-            case TNode(value, left, right) =>
-                TNode(
-                    Positioned(value, x, depth),
+            case Tree.TNil                      => Tree.TNil
+            case Tree.TNode(value, left, right) =>
+                Tree.TNode(
+                    Positioned.Positioned(value, x, depth),
                     layoutBinaryTree2Internal(x - towExp, depth + 1, exp - 1, left),
                     layoutBinaryTree2Internal(x + towExp, depth + 1, exp - 1, right)
                 )
@@ -178,50 +176,49 @@ namespace Trees {
         layoutBinaryTree2Internal(x0, 1, d - 2, t)
 
     def bounds(t: Tree[a]): List[(Int32, Int32)] = match t {
-        case TNil                  => Nil
-        case TNode(_, left, right) => (0, 0) :: (
-            match (bounds(left), bounds(right))  {
-                case (Nil, Nil) => Nil
-                case (lb, Nil)  => lb |> List.map(b ->
-                    let (l, r) = b;
-                    (l - 1, r - 1)
-                )
-                case (Nil, rb)  => rb |> List.map(b ->
-                    let (l, r) = b;
-                    (l + 1, r + 1)
-                )
-                case (lb, rb) => {
-                let shift: Int32 = List.zip(rb, lb) |> List.map(e ->
-                    let ((_,ly), (rx, _)) = e;
+        case Tree.TNil => Nil
+        case Tree.TNode(_, left, right) => 
+            (0, 0) :: boundsHelper(left, right)
+    }
+
+    def boundsHelper(left: Tree[a], right: Tree[a]): List[(Int32, Int32)] = 
+        let leftBounds = bounds(left);
+        let rightBounds = bounds(right);
+        match (leftBounds, rightBounds) {
+            case (Nil, Nil) => Nil
+            case (lb, Nil) => 
+                lb |> List.map(p -> (fst(p) - 1, snd(p) - 1))
+            case (Nil, rb) => 
+                rb |> List.map(p -> (fst(p) + 1, snd(p) + 1))
+            case (lb, rb) => 
+                let shift = List.zip(rightBounds, leftBounds) |> List.map(pair ->
+                    let ((_, ly), (rx, _)) = pair;
                     (ly - rx) / 2 + 1
-                ) |> List.maximum |> Option.getWithDefault(0) ;
+                ) |> List.maximum |> Option.getWithDefault(0);
                 Lists.zipAll(None, None, lb |> List.map(e -> Some(e)), rb |> List.map(e -> Some(e))) |>
                     List.map(e -> match e {
-                    case (Some((a, _)), Some((_, d))) => (a - shift, d + shift)
-                    case (Some((a, b)), None)         => (a - shift, b - shift)
-                    case (None, Some((c, d)))         => (c + shift, d + shift)
-                    case (None, None)                 => unreachable!()
+                        case (Some((a, _)), Some((_, d))) => (a - shift, d + shift)
+                        case (Some((a, b)), None) => (a - shift, b - shift)
+                        case (None, Some((c, d))) => (c + shift, d + shift)
+                        case (None, None) => unreachable!()
                     })
-                }
-            }
-        )
-    }
+        }
 
     def layoutBinaryTree3Internal(x: Int32, depth: Int32, t: Tree[a]): Tree[Positioned[a]] =
         match t {
-            case TNil => TNil
-            case TNode(value, left, right) =>  match bounds(t) {
+            case Tree.TNil => Tree.TNil
+            case Tree.TNode(value, left, right) =>  match bounds(t) {
                 case _ :: (bl, br) :: _ =>
-                 TNode(
-                    Positioned(value, x, depth),
+                 Tree.TNode(
+                    Positioned.Positioned(value, x, depth),
                     layoutBinaryTree3Internal(x + bl, depth + 1, left),
                     layoutBinaryTree3Internal(x + br, depth + 1, right)
                     )
                 case _ =>
-                 TNode(
-                    Positioned(value, x, depth),
-                    TNil,
-                    TNil
+                 Tree.TNode(
+                    Positioned.Positioned(value, x, depth),
+                    Tree.TNil,
+                    Tree.TNil
                     )
             }
         }
@@ -236,9 +233,9 @@ namespace Trees {
 
 
     pub def display(t: Tree[a]): String with ToString[a] = match t {
-        case TNil                      => ""
-        case TNode(value, TNil, TNil)  => "${value}"
-        case TNode(value, left, right) =>
+        case Tree.TNil                      => ""
+        case Tree.TNode(value, Tree.TNil, Tree.TNil)  => "${value}"
+        case Tree.TNode(value, left, right) =>
             let dl = display(left);
             let dr = display(right);
             "${value}(${dl},${dr})"
@@ -246,14 +243,14 @@ namespace Trees {
 
     def parseHelper(str: List[Char]): Option[(List[Char], Tree[Char])] =
         match str {
-            case ',' :: _ => Some((str,  TNil))
-            case ')' :: _ => Some((str,  TNil))
-            case x :: y :: xs if y == ',' or y == ')' => Some((y :: xs,  TNode(x, TNil, TNil)))
+            case ',' :: _ => Some((str,  Tree.TNil))
+            case ')' :: _ => Some((str,  Tree.TNil))
+            case x :: y :: xs if y == ',' or y == ')' => Some((y :: xs,  Tree.TNode(x, Tree.TNil, Tree.TNil)))
             case x :: '(' :: xs =>
                 match parseHelper(xs) {
                     case Some((',' :: xss, l)) =>
                         match parseHelper(xss) {
-                            case Some((')' :: xsss, r)) => Some((xsss, TNode(x, l, r)))
+                            case Some((')' :: xsss, r)) => Some((xsss, Tree.TNode(x, l, r)))
                             case _  => None
                         }
                     case _ => None
@@ -263,8 +260,8 @@ namespace Trees {
 
     pub def parse(s: String): Option[Tree[Char]] =
         match (s |> String.toList) {
-            case Nil      => Some(TNil)
-            case x :: Nil => Some(TNode(x, TNil, TNil))
+            case Nil      => Some(Tree.TNil)
+            case x :: Nil => Some(Tree.TNode(x, Tree.TNil, Tree.TNil))
             case str      =>
                 parseHelper(str) |> Option.map(r ->
                     let (_, t) = r;

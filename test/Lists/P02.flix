@@ -1,10 +1,10 @@
 // Find the last but one element of a list.
-namespace Lists/P02 {
+mod Lists.P02 {
     use Lists.nextToLast;
 
     @test
     def testNextToLast01(): Bool =
-        nextToLast(Nil: List[Int32]) == None
+        nextToLast((Nil: List[Int32])) == None
 
     @test
     def testNextToLast02(): Bool =

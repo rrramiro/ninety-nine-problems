@@ -1,15 +1,15 @@
-namespace Trees/P67 {
+mod Trees.P67 {
 
     @test
     def testDisplayTree01(): Bool =
         Trees.display(
-            TNode("a", TNode("b", TNode("d", TNil, TNil), TNode("e", TNil, TNil)), TNode("c", TNil, TNode("f", TNode("g", TNil, TNil), TNil)))
+            Tree.TNode("a", Tree.TNode("b", Tree.TNode("d", Tree.TNil, Tree.TNil), Tree.TNode("e", Tree.TNil, Tree.TNil)), Tree.TNode("c", Tree.TNil, Tree.TNode("f", Tree.TNode("g", Tree.TNil, Tree.TNil), Tree.TNil)))
         ) == "a(b(d,e),c(,f(g,)))"
 
 
     @test 
     def testParseTree01(): Bool =
         Trees.parse("a(b(d,e),c(,f(g,)))") ==
-            Some(TNode('a', TNode('b', TNode('d', TNil, TNil), TNode('e', TNil, TNil)), TNode('c', TNil, TNode('f', TNode('g', TNil, TNil), TNil))))
+            Some(Tree.TNode('a', Tree.TNode('b', Tree.TNode('d', Tree.TNil, Tree.TNil), Tree.TNode('e', Tree.TNil, Tree.TNil)), Tree.TNode('c', Tree.TNil, Tree.TNode('f', Tree.TNode('g', Tree.TNil, Tree.TNil), Tree.TNil))))
 
 }

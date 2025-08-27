@@ -1,4 +1,4 @@
-namespace Logics/P49 {
+mod Logics.P49 {
 
     def gray(n: Int32): List[String] =
         if (n == 0) "" :: Nil

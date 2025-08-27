@@ -1,4 +1,4 @@
-namespace Lists/P12 {
+mod Lists.P12 {
     use Lists.decode;
     @test
     def testDecode01(): Bool =

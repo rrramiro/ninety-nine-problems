@@ -1,4 +1,4 @@
-namespace Lists/P20 {
+mod Lists.P20 {
     use Lists.removeAt;
 
     @test

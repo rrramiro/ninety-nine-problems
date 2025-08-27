@@ -1,23 +1,25 @@
-namespace MultiwayTrees/P70 {
+
+mod MultiwayTrees.P70 {
+    
     @test
     def testCount01(): Bool =
-        MTrees.count(MTree('a', MTree('f', Nil) :: Nil)) == 2
+        MTrees.count(MTree.MTree('a', MTree.MTree('f', Nil) :: Nil)) == 2
 
     @test
     def testDisplay01(): Bool =
-        MTrees.display(MTree('a',
-            MTree('f', MTree('g', Nil) :: Nil) ::
-            MTree('c', Nil) ::
-            MTree('b', MTree('d', Nil) :: MTree('e', Nil) :: Nil) ::
+        MTrees.display(MTree.MTree('a',
+            MTree.MTree('f', MTree.MTree('g', Nil) :: Nil) ::
+            MTree.MTree('c', Nil) ::
+            MTree.MTree('b', MTree.MTree('d', Nil) :: MTree.MTree('e', Nil) :: Nil) ::
             Nil
         )) == "afg^^c^bd^e^^^"
 
     @test
     def testParse01(): Bool =
-        MTrees.parse("afg^^c^bd^e^^^") == Some(MTree('a',
-            MTree('f', MTree('g', Nil) :: Nil) ::
-            MTree('c', Nil) ::
-            MTree('b', MTree('d', Nil) :: MTree('e', Nil) :: Nil) ::
+        MTrees.parse("afg^^c^bd^e^^^") == Some(MTree.MTree('a',
+            MTree.MTree('f', MTree.MTree('g', Nil) :: Nil) ::
+            MTree.MTree('c', Nil) ::
+            MTree.MTree('b', MTree.MTree('d', Nil) :: MTree.MTree('e', Nil) :: Nil) ::
             Nil
         ))
 }

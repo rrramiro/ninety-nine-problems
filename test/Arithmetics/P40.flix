@@ -1,4 +1,4 @@
-namespace Arithmetics/P40 {
+mod Arithmetics.P40 {
     use Arithmetics.goldbach;
 
     @test

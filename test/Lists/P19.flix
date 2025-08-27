@@ -1,4 +1,4 @@
-namespace Lists/P19 {
+mod Lists.P19 {
     use Lists.rotate;
     @test
     def testRotate01(): Bool =

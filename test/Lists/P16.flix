@@ -1,4 +1,4 @@
-namespace Lists/P16 {
+mod Lists.P16 {
     use Lists.drop;
 
     @test

@@ -1,4 +1,4 @@
-namespace Lists/P21 {
+mod Lists.P21 {
     use Lists.insertAt;
     @test
     def testInsertAt01(): Bool =

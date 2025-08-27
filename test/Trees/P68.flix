@@ -1,37 +1,37 @@
-namespace Trees/P68 {
+mod Trees.P68 {
 
     def preorder(t: Tree[a]) : List[a] =
         match t {
-            case TNil                      => Nil
-            case TNode(value, left, right) => value :: (preorder(left) ::: preorder(right))
+            case Tree.TNil                      => Nil
+            case Tree.TNode(value, left, right) => value :: (preorder(left) ::: preorder(right))
         }
 
     @test
     def testPreorderTree01(): Bool =
-       preorder(Trees.parse("a(b(d,e),c(,f(g,)))") |> Option.getWithDefault(TNil)) == 'a' :: 'b' :: 'd' :: 'e' :: 'c' :: 'f' :: 'g' :: Nil
+       preorder(Trees.parse("a(b(d,e),c(,f(g,)))") |> Option.getWithDefault(Tree.TNil)) == 'a' :: 'b' :: 'd' :: 'e' :: 'c' :: 'f' :: 'g' :: Nil
 
 
     def inorder(t: Tree[a]) : List[a] =
         match t {
-            case TNil                      => Nil
-            case TNode(value, left, right) => inorder(left) ::: (value :: inorder(right))
+            case Tree.TNil                      => Nil
+            case Tree.TNode(value, left, right) => inorder(left) ::: (value :: inorder(right))
         }
     
     @test 
     def tesInorderTree01(): Bool =
-        inorder(Trees.parse("a(b(d,e),c(,f(g,)))") |> Option.getWithDefault(TNil)) == 'd' :: 'b' :: 'e' :: 'a' :: 'c' :: 'g' :: 'f' :: Nil
+        inorder(Trees.parse("a(b(d,e),c(,f(g,)))") |> Option.getWithDefault(Tree.TNil)) == 'd' :: 'b' :: 'e' :: 'a' :: 'c' :: 'g' :: 'f' :: Nil
 
     def preInTree(pre: List[a], in: List[a]): Tree[a] with Eq[a] =
         match (pre, in) {
-            case (Nil, Nil)                     => TNil
-            case (x :: Nil, y :: Nil) if x == y => TNode(x, TNil, TNil)
+            case (Nil, Nil)                     => Tree.TNil
+            case (x :: Nil, y :: Nil) if x == y => Tree.TNode(x, Tree.TNil, Tree.TNil)
             case (x :: xs, io) =>
                 let (lio, rio) = Lists.span(io, a -> x != a);
                 let (lpo, rpo) = Lists.split(List.length(lio), xs);
                 let l = preInTree(lpo, lio);
                 let r = preInTree(rpo, rio |> List.drop(1));
-                TNode(x, l, r)
-            case _  => TNil
+                Tree.TNode(x, l, r)
+            case _  => Tree.TNil
         }
 
     @test
@@ -39,7 +39,7 @@ namespace Trees/P68 {
         preInTree(
             'a' :: 'b' :: 'd' :: 'e' :: 'c' :: 'f' :: 'g' :: Nil,
             'd' :: 'b' :: 'e' :: 'a' :: 'c' :: 'g' :: 'f' :: Nil
-        ) == TNode('a', TNode('b', TNode('d', TNil, TNil), TNode('e', TNil, TNil)), TNode('c', TNil, TNode('f', TNode('g', TNil, TNil), TNil)))
+        ) == Tree.TNode('a', Tree.TNode('b', Tree.TNode('d', Tree.TNil, Tree.TNil), Tree.TNode('e', Tree.TNil, Tree.TNil)), Tree.TNode('c', Tree.TNil, Tree.TNode('f', Tree.TNode('g', Tree.TNil, Tree.TNil), Tree.TNil)))
 
 
     @test
@@ -47,6 +47,6 @@ namespace Trees/P68 {
         preInTree(
             'a' :: 'b' :: 'a' :: Nil,
             'b' :: 'a' :: 'a' :: Nil
-        ) == TNode('a', TNode('b', TNil, TNil), TNode('a', TNil, TNil))
+        ) == Tree.TNode('a', Tree.TNode('b', Tree.TNil, Tree.TNil), Tree.TNode('a', Tree.TNil, Tree.TNil))
 
 }

@@ -1,4 +1,4 @@
-namespace Arithmetics/P33 {
+mod Arithmetics.P33 {
     use Arithmetics.isCoprimeTo;
 
     @test

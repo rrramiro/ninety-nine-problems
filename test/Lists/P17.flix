@@ -1,4 +1,4 @@
-namespace Lists/P17 {
+mod Lists.P17 {
     use Lists.split;
 
     @test

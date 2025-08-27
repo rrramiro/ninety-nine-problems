@@ -1,14 +1,14 @@
-namespace Logics/P47 {
+mod Logics.P47 {
     use Bool.{⊕, ∧, ∨, →, ↔};
 
     def _bToS(a: Bool): String = if(a) "true " else "false"
 
-    def table2(f: (Bool, Bool) -> Bool): Unit & Impure =
+    def table2(f: (Bool, Bool) -> Bool): Unit \ IO =
         ((false, false) ::
         (false, true) ::
         (true, false) ::
         (true, true) :: Nil) |>
-        List.foreach( x ->
+        List.forEach( x ->
             let (a,b) = x;
             let c = f(a, b);
             println("| " + _bToS(a) + " | " + _bToS(b) + " || " + _bToS(c) + " |")
@@ -27,7 +27,7 @@ namespace Logics/P47 {
         ((false, true), false) ::
         ((true, false), false) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a and b) == c
         )
@@ -38,13 +38,13 @@ namespace Logics/P47 {
         ((false, true), false) ::
         ((true, false), false) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a ∧ b) == c
         )
 
     @test
-    def testand03(): Unit & Impure =
+    def testand03(): Unit \ IO =
         println("AND");
         println("--------------------------");
         table2((a, b) -> a and b)
@@ -55,7 +55,7 @@ namespace Logics/P47 {
         ((false, true), true) ::
         ((true, false), true) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a or b) == c
         )
@@ -66,13 +66,13 @@ namespace Logics/P47 {
         ((false, true), true) ::
         ((true, false), true) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a ∨ b) == c
         )
 
     @test
-    def testor03(): Unit & Impure =
+    def testor03(): Unit \ IO =
         println("OR");
         println("--------------------------");
         table2((a, b) -> a or b)
@@ -83,13 +83,13 @@ namespace Logics/P47 {
         ((false, true), true) ::
         ((true, false), true) ::
         ((true, true), false) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a ⊕ b) == c
         )
 
     @test
-    def testxor02(): Unit & Impure =
+    def testxor02(): Unit \ IO =
         println("XOR");
         println("--------------------------");
         table2((a, b) -> a ⊕ b)
@@ -100,13 +100,13 @@ namespace Logics/P47 {
         ((false, true), false) ::
         ((true, false), false) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             (a ↔ b) == c
         )
 
     @test
-    def testequ02(): Unit & Impure =
+    def testequ02(): Unit \ IO =
         println("EQU");
         println("--------------------------");
         table2((a, b) -> a ↔ b)
@@ -117,13 +117,13 @@ namespace Logics/P47 {
         ((false, true), true) ::
         ((true, false), false) ::
         ((true, true), true) :: Nil) |>
-        List.forall( x ->
+        List.forAll( x ->
             let ((a,b), c) = x;
             a → b == c
         )
 
     @test
-    def testimpl02(): Unit & Impure =
+    def testimpl02(): Unit \ IO =
         println("IMPL");
         println("--------------------------");
         table2((a, b) -> a → b)

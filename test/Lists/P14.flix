@@ -1,4 +1,4 @@
-namespace Lists/P14 {
+mod Lists.P14 {
     use Lists.duplicate;
     @test
     def testDuplicate01(): Bool =

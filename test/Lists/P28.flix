@@ -1,4 +1,4 @@
-namespace Lists/P28 {
+mod Lists.P28 {
     def lsort(l: List[List[a]]): List[List[a]] = List.sortBy(x -> List.length(x) , l) //TODO
 
     @test

@@ -1,11 +1,11 @@
 // Layout a binary tree
-namespace Trees/P66 {
+mod Trees.P66 {
 
     @test
     def testLayoutBinaryTree301(): Bool =
         Trees.layoutBinaryTree3(
-            TNode("a", TNode("b", TNil, TNode("c", TNil, TNil)), TNode("d", TNil, TNil))
-        ) == TNode(Positioned("a", 2, 1), TNode(Positioned("b", 1, 2), TNil, TNode(Positioned("c", 2, 3), TNil, TNil)), TNode(Positioned("d", 3, 2), TNil, TNil))
+            Tree.TNode("a", Tree.TNode("b", Tree.TNil, Tree.TNode("c", Tree.TNil, Tree.TNil)), Tree.TNode("d", Tree.TNil, Tree.TNil))
+        ) == Tree.TNode(Positioned.Positioned("a", 2, 1), Tree.TNode(Positioned.Positioned("b", 1, 2), Tree.TNil, Tree.TNode(Positioned.Positioned("c", 2, 3), Tree.TNil, Tree.TNil)), Tree.TNode(Positioned.Positioned("d", 3, 2), Tree.TNil, Tree.TNil))
 
 // a
 //b d
@@ -15,7 +15,7 @@ namespace Trees/P66 {
     def testLayoutBinaryTree302(): Bool =
         Trees.layoutBinaryTree3(
             Trees.fromList("n" :: "k" :: "m" :: "c" :: "a" :: "e" :: "d" :: "g" :: "u" :: "p" :: "q" :: Nil)
-        ) == TNode(Positioned("n", 5, 1), TNode(Positioned("k", 3, 2), TNode(Positioned("c", 2, 3), TNode(Positioned("a", 1, 4), TNil, TNil), TNode(Positioned("e", 3, 4), TNode(Positioned("d", 2, 5), TNil, TNil), TNode(Positioned("g", 4, 5), TNil, TNil))), TNode(Positioned("m", 4, 3), TNil, TNil)), TNode(Positioned("u", 7, 2), TNode(Positioned("p", 6, 3), TNil, TNode(Positioned("q", 7, 4), TNil, TNil)), TNil))
+        ) == Tree.TNode(Positioned.Positioned("n", 5, 1), Tree.TNode(Positioned.Positioned("k", 3, 2), Tree.TNode(Positioned.Positioned("c", 2, 3), Tree.TNode(Positioned.Positioned("a", 1, 4), Tree.TNil, Tree.TNil), Tree.TNode(Positioned.Positioned("e", 3, 4), Tree.TNode(Positioned.Positioned("d", 2, 5), Tree.TNil, Tree.TNil), Tree.TNode(Positioned.Positioned("g", 4, 5), Tree.TNil, Tree.TNil))), Tree.TNode(Positioned.Positioned("m", 4, 3), Tree.TNil, Tree.TNil)), Tree.TNode(Positioned.Positioned("u", 7, 2), Tree.TNode(Positioned.Positioned("p", 6, 3), Tree.TNil, Tree.TNode(Positioned.Positioned("q", 7, 4), Tree.TNil, Tree.TNil)), Tree.TNil))
 
 //    n
 //  k   u

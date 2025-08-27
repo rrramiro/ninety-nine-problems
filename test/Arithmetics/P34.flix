@@ -1,4 +1,4 @@
-namespace Arithmetics/P34 {
+mod Arithmetics.P34 {
     use Arithmetics.totient;
 
     @test

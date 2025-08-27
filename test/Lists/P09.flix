@@ -1,6 +1,6 @@
 // Pack consecutive duplicates of list elements into sublists.
 
-namespace Lists/P09 {
+mod Lists.P09 {
     use Lists.pack;
     @test
     def testPack01(): Bool =
