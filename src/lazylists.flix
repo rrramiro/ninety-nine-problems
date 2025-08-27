@@ -52,4 +52,17 @@ mod DelayLists {
                 case DelayList.ECons(h, t)  => DelayList.LCons(h, lazy take(n - 1, t))
                 case DelayList.LCons(h, t)  => DelayList.LCons(h, lazy take(n - 1, force t))
             }
+
+        pub def toList(xs: DelayList[a]): List[a] =
+            match xs {
+                case DelayList.ENil                     => Nil
+                case DelayList.LList(ys)                => toList(force ys)
+                case DelayList.ECons(h, DelayList.ENil) => h :: Nil
+                case DelayList.ECons(h, t)              => h :: toList(t)
+                case DelayList.LCons(h, lt)             =>
+                    match force lt {
+                        case DelayList.ENil => h :: Nil
+                        case t    => h :: toList(t)
+                    }
+            }
 }

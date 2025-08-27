@@ -71,7 +71,7 @@ mod Arithmetics {
         primes() |>
         DelayLists.filter(x -> x >= l ) |>
         DelayLists.takeWhile(x -> x <= r) |>
-        DelayList.toList
+        DelayLists.toList
 
     pub def goldbach(i: Int32): Option[(Int32, Int32)] =
         primes() |>

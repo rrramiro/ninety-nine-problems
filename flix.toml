@@ -2,5 +2,5 @@
 name        = "ninety-nine-problems"
 description = "test"
 version     = "0.1.0"
-flix        = "0.60.0"
+flix        = "0.61.0"
 authors     = ["John Doe <john@example.com>"]
