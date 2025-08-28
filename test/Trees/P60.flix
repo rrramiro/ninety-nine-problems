@@ -19,8 +19,8 @@ mod Trees.P60 {
         use List.flatMap;
         let minhbh = minHbalHeight(nodes);
         forM(
-            maxhbh <- maxHbalHeight(nodes) |> Option.toList; 
-            n <- List.range(minhbh, maxhbh + 1); 
+            maxhbh <- maxHbalHeight(nodes) |> Option.toList;
+            n <- List.range(minhbh, maxhbh + 1);
             r <- (Trees.heightBalanced(n, value) |> List.filter(x -> Trees.nodeCount(x) == nodes))
         ) yield r
 

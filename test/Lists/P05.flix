@@ -2,7 +2,7 @@
 mod Lists.P05 {
     use Lists.reverseRecursive;
     use Lists.reverseTailRecursive;
-    
+
     @test
     def testReverseRecursive01(): Bool =
         reverseRecursive((Nil: List[Int32])) == Nil

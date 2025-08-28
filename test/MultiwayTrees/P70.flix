@@ -1,6 +1,6 @@
 
 mod MultiwayTrees.P70 {
-    
+
     @test
     def testCount01(): Bool =
         MTrees.count(MTree.MTree('a', MTree.MTree('f', Nil) :: Nil)) == 2

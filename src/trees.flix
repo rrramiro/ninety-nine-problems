@@ -110,8 +110,8 @@ mod Trees {
                 yield res
         } else if(Int32.modulo(n, 2) == 0)
             forM(
-                l <- cBalanced((n - 1) / 2, value); 
-                g <- cBalanced((n - 1) / 2 + 1, value); 
+                l <- cBalanced((n - 1) / 2, value);
+                g <- cBalanced((n - 1) / 2 + 1, value);
                 r <- Tree.TNode(value, l, g) :: Tree.TNode(value, g, l) :: List.Nil
             ) yield r
         else List.Nil
@@ -177,20 +177,20 @@ mod Trees {
 
     def bounds(t: Tree[a]): List[(Int32, Int32)] = match t {
         case Tree.TNil => Nil
-        case Tree.TNode(_, left, right) => 
+        case Tree.TNode(_, left, right) =>
             (0, 0) :: boundsHelper(left, right)
     }
 
-    def boundsHelper(left: Tree[a], right: Tree[a]): List[(Int32, Int32)] = 
+    def boundsHelper(left: Tree[a], right: Tree[a]): List[(Int32, Int32)] =
         let leftBounds = bounds(left);
         let rightBounds = bounds(right);
         match (leftBounds, rightBounds) {
             case (Nil, Nil) => Nil
-            case (lb, Nil) => 
+            case (lb, Nil) =>
                 lb |> List.map(p -> (fst(p) - 1, snd(p) - 1))
-            case (Nil, rb) => 
+            case (Nil, rb) =>
                 rb |> List.map(p -> (fst(p) + 1, snd(p) + 1))
-            case (lb, rb) => 
+            case (lb, rb) =>
                 let shift = List.zip(rightBounds, leftBounds) |> List.map(pair ->
                     let ((_, ly), (rx, _)) = pair;
                     (ly - rx) / 2 + 1

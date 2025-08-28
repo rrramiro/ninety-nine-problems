@@ -7,10 +7,10 @@ mod Logics.P48 {
         use List.flatMap;
         let values = true :: false :: Nil;
         forM(
-            a <- values; 
-            b <- values; 
-            c <- values; 
-            d = f(a, b, c); 
+            a <- values;
+            b <- values;
+            c <- values;
+            d = f(a, b, c);
             r <- (("| " + _bToS(a) + " | " + _bToS(b) + " | " + _bToS(c) + " || " + _bToS(d) + " |") :: Nil))
             yield r
     } |> List.forEach(println)

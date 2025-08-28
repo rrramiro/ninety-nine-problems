@@ -16,8 +16,8 @@ mod Trees.P68 {
             case Tree.TNil                      => Nil
             case Tree.TNode(value, left, right) => inorder(left) ::: (value :: inorder(right))
         }
-    
-    @test 
+
+    @test
     def tesInorderTree01(): Bool =
         inorder(Trees.parse("a(b(d,e),c(,f(g,)))") |> Option.getWithDefault(Tree.TNil)) == 'd' :: 'b' :: 'e' :: 'a' :: 'c' :: 'g' :: 'f' :: Nil
 
