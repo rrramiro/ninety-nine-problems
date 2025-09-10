@@ -1,5 +1,5 @@
 mod Logics.P47 {
-    use Bool.{⊕, ∧, ∨, →, ↔};
+    use Bools.{⊕, ∧, ∨, →, ↔};
 
     def _bToS(a: Bool): String = if(a) "true " else "false"
 
